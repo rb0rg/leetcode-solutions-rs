@@ -1,19 +1,16 @@
+use std::collections::HashMap;
+
 #[allow(dead_code)]
 pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-    let mut indices: Vec<i32> = vec![];
-    for (i, n) in nums.iter().enumerate() {
-        for next_i in i + 1..nums.len() {
-            if let Some(next_n) = nums.get(next_i) {
-                if n + next_n == target {
-                    indices.push(i as i32);
-                    indices.push(next_i as i32);
-                    break;
-                }
-            }
+    let mut num_map = HashMap::new();
+    for (i, &num) in nums.iter().enumerate() {
+        let need = target - num;
+        if let Some(&index) = num_map.get(&need) {
+            return vec![index as i32, i as i32];
         }
+        num_map.insert(num, i);
     }
-
-    indices
+    vec![]
 }
 
 #[cfg(test)]
